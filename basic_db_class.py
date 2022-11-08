@@ -6,6 +6,7 @@ import pandas as pd
 class simple_db():
     '''
     barebones, probably inefficient implementation of a reusable db class
+    @TODO Address the many opportunities for sql injections
     '''
     #obviously dumb, but code imitates life? Not even used currently
     CONN_PARAMS=set(['host','hostaddr','port','dbname','user',
@@ -40,6 +41,7 @@ class simple_db():
     def remote_connect(self, json_path):
         '''
         has hardcoded keys from argos rather than arbitrary ones for now
+        @TODO set it up with uri string or a .ini instead
         '''
         with open(json_path) as db_creds:
             creds=json.load(db_creds)['src_args']
@@ -52,7 +54,10 @@ class simple_db():
     def role_change(self,role):
         '''
         swap roles after connection, always connect as yourself and 
-        change roles later if you want.  
+        change roles later if you want.
+
+        @TODO if pedsnet adoption, charlie won't like this, decide
+        whether to fight or accomodate
         '''
         with self.conn.cursor() as cur:
             try:
@@ -82,6 +87,9 @@ class simple_db():
         To make a thief make an owner amiright?!
 
         also sorry future ryan for not static typing my other methods
+        @TODO static type the other methods
+        @TODO make this work less painfully for complex queries
+        @TODO add stuff for temp tables
         '''
         with self.conn.cursor() as cur:
             try:
